@@ -15,7 +15,14 @@ fn main() {
     let input = take_input();
 
     let tokens = match take_tokens(input.as_str()) {
-        Ok(tokens) => tokens,
+        Ok(tokens) => {
+            print!("Спаршено:");
+            for token in &tokens {
+                print!(" {}", token);
+            }
+            println!(";");
+            tokens
+        },
         Err(e) => {
             eprintln!("Ошибка токенизации: {}", e);
             return;
@@ -23,14 +30,27 @@ fn main() {
     };
 
     let rpn_tokens = match to_rpn(&tokens) {
-        Ok(tokens) => tokens,
+        Ok(tokens) => {
+            print!("Перевод в польскую нотацию:");
+            for token in &tokens {
+                print!(" {}", token);
+            }
+            println!(";");
+            tokens
+        },
         Err(e) => {
             eprintln!("Ошибка перевода в польскую нотацию: {}", e);
             return;
         }
     };
 
-    let result = calculate_rpn(&rpn_tokens);
+    let result = match calculate_rpn(&rpn_tokens) {
+        Ok(res) => res,
+        Err(e) => {
+            eprintln!("Ошибка при вычислении: {}", e);
+            return;
+        }
+    };
 
-    println!("{:?}", result);
+    println!("Ответ: {};", result);
 }

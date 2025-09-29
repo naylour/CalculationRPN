@@ -27,14 +27,7 @@ impl Operator {
     }
 }
 
-#[derive(Debug)]
-pub enum Token {
-    Number(f64),
-    Op(Operator),
 
-    LParen,
-    RParen,
-}
 
 pub fn char_to_operator(c: char) -> Option<Operator> {
     match c {
@@ -80,24 +73,6 @@ impl fmt::Display for Operator {
         match self {
             Operator::High(h) => write!(f, "{}", h),
             Operator::Low(l) => write!(f, "{}", l),
-        }
-    }
-}
-
-impl fmt::Display for Token {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Token::Number(n) => {
-                // число будет выводиться как целое, если дробной части нет
-                if n.fract() == 0.0 {
-                    write!(f, "{:.0}", n)
-                } else {
-                    write!(f, "{}", n)
-                }
-            }
-            Token::Op(op) => write!(f, "{}", op),
-            Token::LParen => write!(f, "("),
-            Token::RParen => write!(f, ")"),
         }
     }
 }
